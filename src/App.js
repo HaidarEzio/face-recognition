@@ -55,7 +55,7 @@ class App extends Component {
   }
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.output[0].data.region[0].region_info.bounding_box;
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -78,7 +78,7 @@ class App extends Component {
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
     fetch('https://stark-inlet-48586.herokuapp.com/imageurl', {
-      method: 'post',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         input: this.state.input
@@ -88,7 +88,7 @@ class App extends Component {
       .then(response => {
         if (response) {
           fetch('https://stark-inlet-48586.herokuapp.com/image', {
-            method: 'put',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               id: this.state.user.id
@@ -103,7 +103,7 @@ class App extends Component {
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err, ' error is here'));
   }
 
   onRouteChange = (route) => {
